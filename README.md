@@ -1,2 +1,2 @@
 # PasswordGenerator
-This is a Simple Password Generator with a GUI
+This is a Simple Password Generator with a GUI.
