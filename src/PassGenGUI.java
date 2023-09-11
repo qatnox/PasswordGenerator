@@ -5,7 +5,6 @@ import java.awt.event.ActionListener;
 import java.security.SecureRandom;
 
 public class PassGenGUI implements ActionListener {
-
     JFrame frame = new JFrame("Password Generator");
     JTextField generatedPass;
     JTextField length;
