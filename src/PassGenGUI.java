@@ -1,5 +1,7 @@
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.security.SecureRandom;
@@ -12,36 +14,49 @@ public class PassGenGUI implements ActionListener {
     JLabel stripe;
     JLabel label1;
     JLabel symbols;
+    JLabel maxLength;
     JButton generateButton;
-    JCheckBox checkBox;
     JButton clearButton;
+    JButton copyButton;
+    JCheckBox checkBox;
+
+    private final int MAX_LENGTH = 40;
 
     public void setButtons() {
         generateButton = new JButton("Generate");
-        generateButton.setBounds(95, 200, 130, 35);
-        generateButton.setFont(new Font("Century Gothic", Font.PLAIN, 15));
+        generateButton.setBounds(25, 200, 130, 35);
+        generateButton.setFont(new Font("Century Gothic", Font.BOLD, 15));
         generateButton.setFocusable(false);
         generateButton.addActionListener(this);
 
         clearButton = new JButton("Clear");
-        clearButton.setBounds(245, 200, 80, 35);
+        clearButton.setBounds(250, 200, 75, 35);
+        clearButton.setForeground(Color.red);
         clearButton.setFont(new Font("Century Gothic", Font.PLAIN, 15));
         clearButton.setFocusable(false);
         clearButton.addActionListener(this);
+
+        copyButton = new JButton("Copy");
+        copyButton.setBounds(170, 200,75, 35);
+        copyButton.setFont(new Font("Century Gothic", Font.PLAIN, 15));
+        copyButton.setFocusable(false);
+        copyButton.addActionListener(this);
     }
 
     public void setTextFields() {
         length = new JTextField();
         length.setBounds(220, 30, 35, 22);
         length.setFont(new Font("Century Gothic", Font.PLAIN, 15));
+        length.setBorder(new RoundedBorder(3));
 
         generatedPass = new JTextField();
         generatedPass.setBounds(25, 160, 300, 25);
-        generatedPass.setFont(new Font("Century Gothic", Font.PLAIN, 13));
+        generatedPass.setFont(new Font("Century Gothic", Font.PLAIN, 15));
+        generatedPass.setBorder(new RoundedBorder(3));
     }
 
     public void setLabels() {
-        label = new JLabel("Your password is");
+        label = new JLabel("YOUR PASSWORD");
         label.setBounds(100, 115, 200, 50);
         label.setFont(new Font("Century Gothic", Font.BOLD, 15));
 
@@ -56,6 +71,11 @@ public class PassGenGUI implements ActionListener {
         stripe = new JLabel("_________________________________________");
         stripe.setBounds(30, 100, 300, 20);
         stripe.setFont(new Font("Century Gothic", Font.PLAIN, 13));
+
+        maxLength = new JLabel("Max length - " + MAX_LENGTH + " symbols");
+        maxLength.setBounds(30, 93, 300, 25);
+        maxLength.setForeground(Color.red);
+        maxLength.setFont(new Font("Century Gothic", Font.BOLD, 13));
     }
 
     public void setCheckBox() {
@@ -69,11 +89,13 @@ public class PassGenGUI implements ActionListener {
 
         frame.add(generateButton);
         frame.add(clearButton);
+        frame.add(copyButton);
 
         frame.add(label);
         frame.add(label1);
         frame.add(stripe);
         frame.add(symbols);
+        frame.add(maxLength);
 
         frame.add(checkBox);
     }
@@ -100,7 +122,7 @@ public class PassGenGUI implements ActionListener {
             StringBuilder stringBuilder = new StringBuilder();
             try {
                 int passLen = Integer.parseInt(length.getText());
-                if (passLen > 40) {
+                if (passLen > MAX_LENGTH) {
                     generatedPass.setText("Too large pass!");
                 } else {
                     for (int i = 0; i < passLen; i++) {
@@ -115,6 +137,12 @@ public class PassGenGUI implements ActionListener {
         }
         if (e.getSource() == clearButton) {
             generatedPass.setText("");
+        }
+
+        if(e.getSource() == copyButton){
+            String copy = generatedPass.getText();
+            StringSelection selectedText = new StringSelection(copy);
+            Toolkit.getDefaultToolkit().getSystemClipboard().setContents(selectedText, null);
         }
     }
 }
