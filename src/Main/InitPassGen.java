@@ -1,3 +1,5 @@
+package Main;
+
 public class InitPassGen {
     PassGenGUI gui = new PassGenGUI();
     InitPassGen(){

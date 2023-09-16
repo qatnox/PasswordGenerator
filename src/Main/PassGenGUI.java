@@ -1,5 +1,8 @@
+package Main;
+
+import Additional.RoundedBorder;
+
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
@@ -19,6 +22,9 @@ public class PassGenGUI implements ActionListener {
     JButton clearButton;
     JButton copyButton;
     JCheckBox checkBox;
+
+    public int textPassLen;
+    public String textGeneratedPass;
 
     private final int MAX_LENGTH = 40;
 
@@ -112,6 +118,7 @@ public class PassGenGUI implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == generateButton) {
+            setTextPassLen();
             String password;
             if (checkBox.isSelected()) {
                 password = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_@!#$%^&*()-+=/{}:|;?><~.,";
@@ -121,7 +128,7 @@ public class PassGenGUI implements ActionListener {
             SecureRandom random = new SecureRandom();
             StringBuilder stringBuilder = new StringBuilder();
             try {
-                int passLen = Integer.parseInt(length.getText());
+                int passLen = getTextPassLen();
                 if (passLen > MAX_LENGTH) {
                     generatedPass.setText("Too large pass!");
                 } else {
@@ -129,7 +136,9 @@ public class PassGenGUI implements ActionListener {
                         int randomIndex = random.nextInt(password.length());
                         stringBuilder.append(password.charAt(randomIndex));
                     }
-                    generatedPass.setText(stringBuilder.toString());
+
+                    setTextGeneratedPass(stringBuilder.toString());
+                    generatedPass.setText(getTextGeneratedPass());
                 }
             } catch (Exception exception) {
                 generatedPass.setText("Incompatible data types!");
@@ -144,5 +153,25 @@ public class PassGenGUI implements ActionListener {
             StringSelection selectedText = new StringSelection(copy);
             Toolkit.getDefaultToolkit().getSystemClipboard().setContents(selectedText, null);
         }
+    }
+
+    public String getTextGeneratedPass() {
+        return textGeneratedPass;
+    }
+
+    public void setTextGeneratedPass(String textGeneratedPass) {
+        System.out.println(textGeneratedPass);
+        this.textGeneratedPass = textGeneratedPass;
+    }
+
+    public int getTextPassLen() {
+        return textPassLen;
+
+    }
+
+    public void setTextPassLen() {
+        int textPassLen = Integer.parseInt(length.getText());
+        System.out.println(textPassLen);
+        this.textPassLen = textPassLen;
     }
 }
