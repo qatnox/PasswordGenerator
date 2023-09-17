@@ -25,7 +25,6 @@ public class PassGenGUI implements ActionListener {
 
     public int textPassLen;
     public String textGeneratedPass;
-
     private final int MAX_LENGTH = 40;
 
     public void setButtons() {
