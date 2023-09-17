@@ -155,21 +155,20 @@ public class PassGenGUI implements ActionListener {
         }
     }
 
-    public String getTextGeneratedPass() {
+    private String getTextGeneratedPass() {
         return textGeneratedPass;
     }
 
-    public void setTextGeneratedPass(String textGeneratedPass) {
+    private void setTextGeneratedPass(String textGeneratedPass) {
         System.out.println(textGeneratedPass);
         this.textGeneratedPass = textGeneratedPass;
     }
 
-    public int getTextPassLen() {
+    private int getTextPassLen() {
         return textPassLen;
-
     }
 
-    public void setTextPassLen() {
+    private void setTextPassLen() {
         int textPassLen = Integer.parseInt(length.getText());
         System.out.println(textPassLen);
         this.textPassLen = textPassLen;
