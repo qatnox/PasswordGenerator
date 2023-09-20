@@ -9,7 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.security.SecureRandom;
 
-public class PassGenGUI implements ActionListener {
+public class PassGenGUI implements ActionListener  {
     JFrame frame = new JFrame("Password Generator");
     JTextField generatedPass;
     JTextField length;
@@ -55,7 +55,7 @@ public class PassGenGUI implements ActionListener {
         length.setBorder(new RoundedBorder(3));
 
         generatedPass = new JTextField();
-        generatedPass.setBounds(25, 160, 300, 25);
+        generatedPass.setBounds(25, 160, 300, 30);
         generatedPass.setFont(new Font("Century Gothic", Font.PLAIN, 15));
         generatedPass.setBorder(new RoundedBorder(3));
     }
@@ -85,7 +85,10 @@ public class PassGenGUI implements ActionListener {
 
     public void setCheckBox() {
         checkBox = new JCheckBox();
-        checkBox.setBounds(218, 55, 30, 30);
+        checkBox.setBounds(220, 58, 25, 25);
+        checkBox.setBorderPaintedFlat(false);
+        Insets insets = new Insets(2, 0, 2, 2);
+        checkBox.setMargin(insets);
     }
 
     public void addComponents() {
@@ -120,7 +123,7 @@ public class PassGenGUI implements ActionListener {
             setTextPassLen();
             String password;
             if (checkBox.isSelected()) {
-                password = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_@!#$%^&*()-+=/{}:|;?><~.,";
+                password = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_@!#$%^&*()-+=/{}:|;?><~.,‹›";
             } else {
                 password = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             }
