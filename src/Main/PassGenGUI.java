@@ -7,7 +7,7 @@ import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.security.SecureRandom;
+import java.util.Random;
 
 public class PassGenGUI implements ActionListener  {
     JFrame frame = new JFrame("Password Generator");
@@ -120,34 +120,36 @@ public class PassGenGUI implements ActionListener  {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == generateButton) {
-            setTextPassLen();
-            String password;
-            if (checkBox.isSelected()) {
-                password = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_@!#$%^&*()-+=/{}:|;?><~.,‹›";
-            } else {
-                password = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            }
-            SecureRandom random = new SecureRandom();
-            StringBuilder stringBuilder = new StringBuilder();
             try {
-                int passLen = getTextPassLen();
-                if (passLen > MAX_LENGTH) {
-                    generatedPass.setText("Too large pass!");
+                setTextPassLen();
+                String password;
+                if (checkBox.isSelected()) {
+                    password = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_@!#$%^&*()-+=/{}:|;?><~.,‹›";
                 } else {
-                    for (int i = 0; i < passLen; i++) {
-                        int randomIndex = random.nextInt(password.length());
-                        stringBuilder.append(password.charAt(randomIndex));
-                    }
+                    password = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+                }
 
+                int passLen = getTextPassLen();
+                if (passLen > MAX_LENGTH || passLen < 1) {
+                    generatedPass.setText("Incorrect length!");
+                } else {
+                    char[] passSymbols = password.toCharArray();
+                    StringBuilder stringBuilder = new StringBuilder();
+                    for (int i = 0; i < passLen; i++) {
+                        Random random = new Random();
+                        stringBuilder.append(passSymbols[random.nextInt(passSymbols.length)]);
+                    }
                     setTextGeneratedPass(stringBuilder.toString());
                     generatedPass.setText(getTextGeneratedPass());
                 }
             } catch (Exception exception) {
-                generatedPass.setText("Incompatible data types!");
+                generatedPass.setText("\t   0_o");
             }
         }
         if (e.getSource() == clearButton) {
             generatedPass.setText("");
+            length.setText("");
+            checkBox.setSelected(false);
         }
 
         if(e.getSource() == copyButton){
@@ -171,8 +173,9 @@ public class PassGenGUI implements ActionListener  {
     }
 
     private void setTextPassLen() {
-        int textPassLen = Integer.parseInt(length.getText());
-        System.out.println(textPassLen);
-        this.textPassLen = textPassLen;
+            int textPassLen = Integer.parseInt(length.getText());
+            System.out.println(textPassLen);
+            this.textPassLen = textPassLen;
+            generatedPass.setText("Unable to generate!");
     }
 }
