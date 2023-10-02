@@ -1,5 +1,6 @@
 package Main;
 
+import Additional.GeneratePassword;
 import Additional.RoundedBorder;
 
 import javax.swing.*;
@@ -11,7 +12,7 @@ import java.util.Random;
 
 public class PassGenGUI implements ActionListener  {
     JFrame frame = new JFrame("Password Generator");
-    JTextField generatedPass;
+    public JTextField generatedPass;
     JTextField length;
     JLabel label;
     JLabel stripe;
@@ -128,20 +129,10 @@ public class PassGenGUI implements ActionListener  {
                 } else {
                     password = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
                 }
-
                 int passLen = getTextPassLen();
-                if (passLen > MAX_LENGTH || passLen < 1) {
-                    generatedPass.setText("Incorrect length!");
-                } else {
-                    char[] passSymbols = password.toCharArray();
-                    StringBuilder stringBuilder = new StringBuilder();
-                    for (int i = 0; i < passLen; i++) {
-                        Random random = new Random();
-                        stringBuilder.append(passSymbols[random.nextInt(passSymbols.length)]);
-                    }
-                    setTextGeneratedPass(stringBuilder.toString());
-                    generatedPass.setText(getTextGeneratedPass());
-                }
+                GeneratePassword generatePassword = new GeneratePassword();
+                generatePassword.generate(password, MAX_LENGTH, passLen, generatedPass);
+
             } catch (Exception exception) {
                 generatedPass.setText("\t   0_o");
             }
@@ -159,12 +150,11 @@ public class PassGenGUI implements ActionListener  {
         }
     }
 
-    private String getTextGeneratedPass() {
+    public String getTextGeneratedPass() {
         return textGeneratedPass;
     }
 
-    private void setTextGeneratedPass(String textGeneratedPass) {
-        System.out.println(textGeneratedPass);
+    public void setTextGeneratedPass(String textGeneratedPass) {
         this.textGeneratedPass = textGeneratedPass;
     }
 
@@ -174,7 +164,6 @@ public class PassGenGUI implements ActionListener  {
 
     private void setTextPassLen() {
             int textPassLen = Integer.parseInt(length.getText());
-            System.out.println(textPassLen);
             this.textPassLen = textPassLen;
             generatedPass.setText("Unable to generate!");
     }
