@@ -8,7 +8,6 @@ import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Random;
 
 public class PassGenGUI implements ActionListener  {
     JFrame frame = new JFrame("Password Generator");
@@ -23,6 +22,7 @@ public class PassGenGUI implements ActionListener  {
     JButton clearButton;
     JButton copyButton;
     JCheckBox checkBox;
+    Font font = new Font("Century Gothic", Font.PLAIN, 15);
 
     public int textPassLen;
     public String textGeneratedPass;
@@ -38,13 +38,13 @@ public class PassGenGUI implements ActionListener  {
         clearButton = new JButton("Clear");
         clearButton.setBounds(250, 200, 75, 35);
         clearButton.setForeground(Color.red);
-        clearButton.setFont(new Font("Century Gothic", Font.PLAIN, 15));
+        clearButton.setFont(font);
         clearButton.setFocusable(false);
         clearButton.addActionListener(this);
 
         copyButton = new JButton("Copy");
         copyButton.setBounds(170, 200,75, 35);
-        copyButton.setFont(new Font("Century Gothic", Font.PLAIN, 15));
+        copyButton.setFont(font);
         copyButton.setFocusable(false);
         copyButton.addActionListener(this);
     }
@@ -52,12 +52,12 @@ public class PassGenGUI implements ActionListener  {
     public void setTextFields() {
         length = new JTextField();
         length.setBounds(220, 30, 35, 22);
-        length.setFont(new Font("Century Gothic", Font.PLAIN, 15));
+        length.setFont(font);
         length.setBorder(new RoundedBorder(3));
 
         generatedPass = new JTextField();
         generatedPass.setBounds(25, 160, 300, 30);
-        generatedPass.setFont(new Font("Century Gothic", Font.PLAIN, 15));
+        generatedPass.setFont(font);
         generatedPass.setBorder(new RoundedBorder(3));
     }
 
@@ -68,11 +68,11 @@ public class PassGenGUI implements ActionListener  {
 
         label1 = new JLabel("Length of the password");
         label1.setBounds(40, 15, 200, 50);
-        label1.setFont(new Font("Century Gothic", Font.PLAIN, 15));
+        label1.setFont(font);
 
         symbols = new JLabel("Use special symbols");
         symbols.setBounds(68, 45, 200, 50);
-        symbols.setFont(new Font("Century Gothic", Font.PLAIN, 15));
+        symbols.setFont(font);
 
         stripe = new JLabel("_________________________________________");
         stripe.setBounds(30, 100, 300, 20);
@@ -163,8 +163,6 @@ public class PassGenGUI implements ActionListener  {
     }
 
     private void setTextPassLen() {
-            int textPassLen = Integer.parseInt(length.getText());
-            this.textPassLen = textPassLen;
-            generatedPass.setText("Unable to generate!");
+            this.textPassLen = Integer.parseInt(length.getText());
     }
 }
