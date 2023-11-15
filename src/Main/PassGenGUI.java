@@ -21,9 +21,10 @@ public class PassGenGUI implements ActionListener  {
     JButton generateButton;
     JButton clearButton;
     JButton copyButton;
-    JCheckBox checkBox;
+    JComboBox<String> comboBox;
     Font font = new Font("Century Gothic", Font.PLAIN, 15);
 
+    GeneratePassword generatePassword;
     public int textPassLen;
     public String textGeneratedPass;
     private final int MAX_LENGTH = 40;
@@ -51,7 +52,7 @@ public class PassGenGUI implements ActionListener  {
 
     public void setTextFields() {
         length = new JTextField();
-        length.setBounds(220, 30, 35, 22);
+        length.setBounds(220, 23, 35, 27);
         length.setFont(font);
         length.setBorder(new RoundedBorder(3));
 
@@ -67,11 +68,11 @@ public class PassGenGUI implements ActionListener  {
         label.setFont(new Font("Century Gothic", Font.BOLD, 15));
 
         label1 = new JLabel("Length of the password");
-        label1.setBounds(40, 15, 200, 50);
+        label1.setBounds(40, 10, 200, 50);
         label1.setFont(font);
 
-        symbols = new JLabel("Use special symbols");
-        symbols.setBounds(68, 45, 200, 50);
+        symbols = new JLabel("Mode");
+        symbols.setBounds(40, 46, 80, 50);
         symbols.setFont(font);
 
         stripe = new JLabel("_________________________________________");
@@ -84,12 +85,13 @@ public class PassGenGUI implements ActionListener  {
         maxLength.setFont(new Font("Century Gothic", Font.BOLD, 13));
     }
 
-    public void setCheckBox() {
-        checkBox = new JCheckBox();
-        checkBox.setBounds(220, 58, 25, 25);
-        checkBox.setBorderPaintedFlat(false);
-        Insets insets = new Insets(2, 0, 2, 2);
-        checkBox.setMargin(insets);
+    public void setComboBox() {
+        String[] type = {"default", "special symbols", "numbers", "lowercase", "uppercase"};
+        comboBox = new JComboBox<>(type);
+        comboBox.setFocusable(false);
+        comboBox.setFont(new Font("Century Gothic", Font.BOLD, 13));
+        comboBox.setBounds(120, 58, 135, 27);
+        comboBox.setBorder(new RoundedBorder(3));
     }
 
     public void addComponents() {
@@ -106,7 +108,7 @@ public class PassGenGUI implements ActionListener  {
         frame.add(symbols);
         frame.add(maxLength);
 
-        frame.add(checkBox);
+        frame.add(comboBox);
     }
 
     public void initFrame() {
@@ -124,13 +126,28 @@ public class PassGenGUI implements ActionListener  {
             try {
                 setTextPassLen();
                 String password;
-                if (checkBox.isSelected()) {
-                    password = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_@!#$%^&*()-+=/{}:|;?><~.,‹›";
-                } else {
-                    password = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+                switch (comboBox.getSelectedIndex()){
+                    case 0:
+                        password = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+                        break;
+                    case 1:
+                        password = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_@!#$%^&*()-+=/{}:|;?><~.,‹›";
+                        break;
+                    case 2:
+                        password = "0123456789";
+                        break;
+                    case 3:
+                        password = "abcdefghijklmnopqrstuvwxyz0123456789";
+                        break;
+                    case 4:
+                        password = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+                        break;
+                    default:
+                        throw new IllegalStateException("Unexpected value: " + comboBox.getSelectedIndex());
                 }
+                
                 int passLen = getTextPassLen();
-                GeneratePassword generatePassword = new GeneratePassword();
+                generatePassword = new GeneratePassword();
                 generatePassword.generate(password, MAX_LENGTH, passLen, generatedPass);
 
             } catch (Exception exception) {
@@ -140,7 +157,7 @@ public class PassGenGUI implements ActionListener  {
         if (e.getSource() == clearButton) {
             generatedPass.setText("");
             length.setText("");
-            checkBox.setSelected(false);
+            comboBox.setSelectedItem("default");
         }
 
         if(e.getSource() == copyButton){
